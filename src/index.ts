@@ -14,6 +14,10 @@ type Task = {
 
 const tasks: Task[] = []
 
+app.get('/me', (req, res) => {
+  return res.json({ name: 'Nattapon Tancho' , code: '620610786'})
+})
+
 app.get('/todo', (req, res) => {
 
   // try to call /todo?q1=data1&q2data2
