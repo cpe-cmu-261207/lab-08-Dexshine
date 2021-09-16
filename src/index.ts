@@ -19,6 +19,7 @@ app.get('/todo', (req, res) => {
   // try to call /todo?q1=data1&q2data2
   // you can read query parameters with "req.query"
   console.log(req.query)
+  console.log('hello')
  
   return res.json({ status: 'success', tasks })
 })
