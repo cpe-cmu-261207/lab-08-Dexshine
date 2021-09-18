@@ -65,7 +65,28 @@ app.get('/todo', (req, res) => {
     })
   )
 
-  return res.json({ status: 'success', tasks: tasks})
+  return res.status(200).json({ status: 'success', tasks: tasks})
+})
+
+//change complete status
+app.put('/todo/:id', (req, res) => {
+  const id = parseInt(req.params.id) //change id from url to int
+  const foundTask = tasks.find(x => x.id === id)//find task in array that have same id
+  //found task with the same id
+  if(foundTask){
+    foundTask.complete = !foundTask.complete
+    return res.status(200).json({
+      status: "success",
+      task: foundTask
+    })
+  }
+  //cant find task with the same id
+  else{
+    return res.status(404).json({
+      status: "failed",
+      message: "Id is not found"
+    })
+  }
 })
 
 
