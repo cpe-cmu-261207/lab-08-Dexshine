@@ -14,17 +14,44 @@ type Task = {
 
 const tasks: Task[] = []
 
+let currentId: number = 1
+
+//get name and student code
 app.get('/me', (req, res) => {
-  return res.json({ name: 'Nattapon Tancho' , code: '620610786'})
+  return res.status(200).json({ name: 'Nattapon Tancho' , code: '620610786'})
 })
 
+//post new task
+app.post('/todo', (req: Request<{}, {}, Task>, res) => {
+  //check if property in body have correct type
+  if(typeof(req.body.name) === "string" && 
+      typeof(req.body.complete) === "boolean" && 
+      req.body.name !== "")
+  {
+    const newTask: Task = {
+      id: currentId,
+      name: req.body.name,
+      complete: req.body.complete
+    }
+    tasks.push(newTask)
+    currentId += 1
+    return res.status(200).json({status: "success", tasks: tasks})
+  }
+  //property have incorrect type
+  else
+  {
+    return res.status(400).json({status: "failed", message: "invalid input data"})
+  }
+})
+
+//show all task
 app.get('/todo', (req, res) => {
 
   // try to call /todo?q1=data1&q2data2
   // you can read query parameters with "req.query"
   console.log(req.query)
   console.log('hello')
- 
+
   return res.json({ status: 'success', tasks })
 })
 
