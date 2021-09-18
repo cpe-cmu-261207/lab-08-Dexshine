@@ -40,7 +40,7 @@ app.post('/todo', (req: Request<{}, {}, Task>, res) => {
   //property have incorrect type
   else
   {
-    return res.status(400).json({status: "failed", message: "invalid input data"})
+    return res.status(400).json({status: "failed", message: "Invalid input data"})
   }
 })
 
@@ -81,6 +81,24 @@ app.put('/todo/:id', (req, res) => {
     })
   }
   //cant find task with the same id
+  else{
+    return res.status(404).json({
+      status: "failed",
+      message: "Id is not found"
+    })
+  }
+})
+
+//delete task
+app.delete('/todo/:id', (req, res) => {
+  const id = parseInt(req.params.id) //change id from url to int
+  const delIndex = tasks.findIndex(x => x.id === id) //find index of task that have same id
+  //found task with the same id
+  if(delIndex > -1){
+    tasks.splice(delIndex, 1)
+    return res.status(200).json({status: "success", tasks: tasks})
+  }
+  //can't find task with the same id
   else{
     return res.status(404).json({
       status: "failed",
